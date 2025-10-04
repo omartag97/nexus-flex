@@ -5,10 +5,11 @@ import { useMovies } from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import { MovieSearchItem } from "@/interface/movie.interface";
+import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
 
 export default function MovieGrid() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("s") || "batman";
+  const searchQuery = searchParams.get("s") || "";
   const { data, isLoading, isError, error } = useMovies(searchQuery);
 
   // 🌀 Loading state
@@ -49,13 +50,13 @@ export default function MovieGrid() {
   if (uniqueResults.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-zinc-500 dark:text-zinc-400">
-          No movies found. Try searching for something else.
-        </p>
-        {process.env.NODE_ENV === "development" && (
-          <pre className="mt-4 text-left max-w-3xl mx-auto text-xs bg-white/5 p-4 rounded">
-            {JSON.stringify(data, null, 2)}
-          </pre>
+        {searchQuery ? (
+          <NoMoviesFound
+            message="No movies found for your search."
+            pointToSearch
+          />
+        ) : (
+          <NoMoviesFound message="Lights, Camera… Search!" pointToSearch />
         )}
       </div>
     );
@@ -76,19 +77,6 @@ export default function MovieGrid() {
           <MovieCard key={movie.imdbID} {...movie} />
         ))}
       </div>
-
-      {process.env.NODE_ENV === "development" && (
-        <div className="col-span-full mt-6 text-left max-w-5xl mx-auto text-xs bg-white/5 p-4 rounded">
-          <details>
-            <summary className="cursor-pointer">
-              Raw API response (click to expand)
-            </summary>
-            <pre className="whitespace-pre-wrap">
-              {JSON.stringify(data, null, 2)}
-            </pre>
-          </details>
-        </div>
-      )}
     </section>
   );
 }

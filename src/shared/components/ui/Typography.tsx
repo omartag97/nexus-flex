@@ -1,61 +1,112 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+"use client";
 
-import { cn } from "@/lib/utils";
+import React from "react";
+import clsx from "clsx";
 
-const typographyVariants = cva("", {
-  variants: {
-    variant: {
-      h1: "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
-      h2: "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-      h3: "scroll-m-20 text-2xl font-semibold tracking-tight",
-      h4: "scroll-m-20 text-xl font-semibold tracking-tight",
-      h5: "text-lg font-semibold",
-      h6: "text-base font-semibold",
-      p: "leading-7 [&:not(:first-child)]:mt-6",
-      blockquote: "mt-6 border-l-2 pl-6 italic",
-      ul: "my-6 ml-6 list-disc [&>li]:mt-2",
-      inlineCode:
-        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
-      lead: "text-xl text-muted-foreground",
-      large: "text-lg font-semibold",
-      small: "text-sm font-medium leading-none",
-      muted: "text-sm text-muted-foreground",
-      caption: "text-xs text-muted-foreground",
-    },
-    color: {
-      default: "",
-      primary: "text-primary",
-      secondary: "text-secondary",
-      accent: "text-accent",
-      destructive: "text-destructive",
-      muted: "text-muted-foreground",
-    },
-  },
-  defaultVariants: {
-    variant: "p",
-    color: "default",
-  },
-});
+type Variant =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "subtitle1"
+  | "subtitle2"
+  | "body1"
+  | "body2"
+  | "caption";
 
-export interface TypographyProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "color">,
-    VariantProps<typeof typographyVariants> {
+type Color =
+  | "primary"
+  | "primary-foreground"
+  | "secondary"
+  | "secondary-foreground"
+  | "muted"
+  | "muted-foreground"
+  | "accent"
+  | "accent-foreground"
+  | "destructive"
+  | "destructive-foreground"
+  | "white"
+  | "black"
+  | "gradient";
+
+interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
+  align?: "center" | "start" | "end";
+  variant?: Variant;
   component?: React.ElementType;
+  color?: Color;
+  noWrap?: boolean;
+  gutterBottom?: boolean;
+  paragraph?: boolean;
+  className?: string;
+  children: React.ReactNode;
 }
 
-const Typography = React.forwardRef<HTMLElement, TypographyProps>(
-  ({ className, variant, color, component = "span", ...props }, ref) => {
-    const Comp = component;
-    return (
-      <Comp
-        className={cn(typographyVariants({ variant, color, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Typography.displayName = "Typography";
+const variantMapping: Record<Variant, React.ElementType> = {
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  subtitle1: "p",
+  subtitle2: "p",
+  body1: "p",
+  body2: "p",
+  caption: "span",
+};
 
-export default Typography;
+const stylesMapper: Record<Variant, string> = {
+  h1: "text-6xl font-bold leading-tight",
+  h2: "text-5xl font-bold leading-normal",
+  h3: "text-4xl font-bold leading-snug",
+  h4: "text-3xl font-bold leading-relaxed",
+  h5: "text-2xl font-bold leading-loose",
+  h6: "text-xl font-bold leading-7",
+  subtitle1: "text-lg font-semibold leading-8",
+  subtitle2: "text-sm font-semibold leading-6",
+  body1: "text-lg font-normal leading-6",
+  body2: "text-sm font-normal leading-5",
+  caption: "text-xs font-normal leading-relaxed",
+};
+
+export default function Typography({
+  align = "start",
+  variant = "body1",
+  component: Component,
+  color = "primary",
+  noWrap = false,
+  gutterBottom = false,
+  paragraph = false,
+  className = "",
+  children,
+  ...restProps
+}: TypographyProps) {
+  const alignmentMapping = {
+    center: "text-center",
+    start: "text-start",
+    end: "text-end",
+  };
+
+  const Tag = paragraph ? "p" : Component || variantMapping[variant] || "span";
+
+  const classes = clsx(
+    stylesMapper[variant],
+    alignmentMapping[align],
+    {
+      "whitespace-nowrap": noWrap,
+      "mb-2": gutterBottom,
+      "bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-pink-500":
+        color === "gradient",
+    },
+    color !== "gradient" && `text-${color}`,
+    className
+  );
+
+  return (
+    <Tag className={classes} {...restProps}>
+      {children}
+    </Tag>
+  );
+}
