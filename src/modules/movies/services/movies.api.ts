@@ -7,11 +7,10 @@ export async function searchMovies(query: string) {
     process.env.NEXT_PUBLIC_OMDB_KEY
   }`;
 
-  const res = await fetch(url, { next: { revalidate: 60 } }); // cache for 60s
+  const res = await fetch(url, { next: { revalidate: 60 } });
   if (!res.ok) throw new Error("Failed to fetch movies");
 
   const data = await res.json();
-  // Return the full OMDb response so callers can access Search, totalResults, etc.
   if (data.Response === "False") return data;
 
   return data;
@@ -24,7 +23,7 @@ export async function getMovieDetails(id: string) {
     process.env.NEXT_PUBLIC_OMDB_KEY
   }`;
 
-  const res = await fetch(url, { cache: "no-store" }); // always fetch fresh data
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch movie details");
 
   const data = await res.json();
