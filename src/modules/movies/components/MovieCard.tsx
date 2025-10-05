@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { MovieSearchItem } from "@/interface/movie.interface";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 
 const MovieCard = memo(function MovieCard(movie: MovieSearchItem) {
   const router = useRouter();
@@ -33,9 +34,7 @@ const MovieCard = memo(function MovieCard(movie: MovieSearchItem) {
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           ) : (
-            <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
-              <span className="text-zinc-400">No Image</span>
-            </div>
+            <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
           )}
         </div>
         <div className="p-4">

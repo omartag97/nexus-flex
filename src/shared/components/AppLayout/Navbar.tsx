@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useScrollDirection } from "@/shared/hooks/useScrollDirection";
-import { BackButton } from "./BackButton";
 import { Logo } from "./Logo";
 import { NAVBAR_ANIMATION } from "@/constants/navbar";
 import { ModeToggle } from "../system/ModeToggle";
@@ -28,20 +27,24 @@ export default function Navbar() {
         fixed inset-x-0 top-0 py-3 z-30 w-full max-w-3xl mx-auto
         flex justify-center md:top-6 my-2 shadow-sm rounded-2xl 
         backdrop-blur-sm
-        bg-white border border-zinc-200
-        dark:bg-[hsl(217.2,32.6%,10%)] dark:border-[hsl(217.2,32.6%,13%)]
+        bg-white/30 border border-white/20
+        dark:bg-black/30 dark:border-white/10
         transition-colors duration-300
       "
     >
-      <nav className="w-full px-4" aria-label="Main navigation">
-        <div className="flex items-center justify-between">
-          <div className="flex shrink-0 w-9 lg:w-18 relative">
-            <BackButton />
-          </div>
-          <div className="md:flex md:items-center md:justify-center md:gap-5">
+      <nav className="w-full px-4 relative" aria-label="Main navigation">
+        {/* Centered Logo */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="pointer-events-auto">
             <Logo />
           </div>
-          <div className="flex items-center justify-end gap-3">
+        </div>
+
+        <div className="flex items-center justify-between">
+          {/* Placeholder to keep logo centered */}
+          <div className="hidden md:block md:w-1/3" />
+
+          <div className="flex items-center justify-end gap-3 md:w-1/3">
             <ModeToggle />
           </div>
         </div>

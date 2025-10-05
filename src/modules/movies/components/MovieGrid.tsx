@@ -1,17 +1,29 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 import { useMovies } from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import { MovieSearchItem } from "@/interface/movie.interface";
 import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
-import { motion } from "framer-motion";
+import { MovieSearchItem } from "@/interface/movie.interface";
 
 export default function MovieGrid() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("s") || "";
-  const { data, isLoading, isError, error } = useMovies(searchQuery);
+  const urlQuery = searchParams.get("s")?.trim() || "";
+
+  const [effectiveQuery, setEffectiveQuery] = useState(urlQuery);
+
+  // ✅ Update on URL change (client-safe)
+  useEffect(() => {
+    setEffectiveQuery(urlQuery);
+    if (urlQuery) {
+      sessionStorage.setItem("movies:lastSearch", urlQuery);
+    }
+  }, [urlQuery]);
+
+  const { data, isLoading, isError, error } = useMovies(effectiveQuery);
 
   if (isLoading) {
     return (
@@ -36,18 +48,18 @@ export default function MovieGrid() {
     );
   }
 
-  const rawResults: MovieSearchItem[] = Array.isArray(data)
-    ? data
-    : data?.Search ?? [];
-
-  const uniqueResults: MovieSearchItem[] = Array.from(
-    new Map(rawResults.map((m) => [m.imdbID, m])).values()
+  const results: MovieSearchItem[] = Array.isArray(data) ? data : [];
+  const uniqueResults = Array.from(
+    new Map(results.map((m) => [m.imdbID, m])).values()
   );
 
   if (uniqueResults.length === 0) {
     return (
       <div className="text-center py-24">
-        <NoMoviesFound isSearchEmpty={!searchQuery} searchName={searchQuery} />
+        <NoMoviesFound
+          isSearchEmpty={!effectiveQuery}
+          searchName={effectiveQuery}
+        />
       </div>
     );
   }
@@ -61,18 +73,9 @@ export default function MovieGrid() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-2 rounded-full shadow-lg text-lg sm:text-xl font-semibold tracking-wide inline-flex items-center gap-2">
-          <motion.span
-            className="text-2xl"
-            animate={{ rotate: [0, 15, -15, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          >
-            🎬
-          </motion.span>
-          <span>
-            Found {uniqueResults.length} title
-            {uniqueResults.length > 1 ? "s" : ""}{" "}
-            {searchQuery ? `for "${searchQuery}"` : ""}
-          </span>
+          Found {uniqueResults.length} title
+          {uniqueResults.length > 1 ? "s" : ""}{" "}
+          {effectiveQuery ? `for "${effectiveQuery}"` : ""}
         </div>
 
         <motion.p

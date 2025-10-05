@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Film } from "lucide-react"; // modern icon
 
 interface NoMoviesFoundProps {
   isSearchEmpty?: boolean;
@@ -13,34 +14,36 @@ export default function NoMoviesFound({
 }: NoMoviesFoundProps) {
   return (
     <div className="relative flex flex-col items-center justify-center py-24">
-      {/* Arrow pointing up */}
-      <motion.div
-        className="absolute -top-16"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 1.2 }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-10 w-10 text-blue-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      {/* Animated arrow pointing upward when search is empty */}
+      {isSearchEmpty && (
+        <motion.div
+          className="absolute -top-16"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.2 }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 15l-7-7-7 7"
-          />
-        </svg>
-      </motion.div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 text-indigo-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 15l-7-7-7 7"
+            />
+          </svg>
+        </motion.div>
+      )}
 
-      {/* ❌ X sign with bounce + rotate */}
-      <motion.span
-        className="text-6xl mb-4"
+      {/* Animated icon depending on state */}
+      <motion.div
+        className="mb-4 text-zinc-700 dark:text-zinc-300"
         animate={{
           scale: [0.9, 1.1, 1],
-          rotate: [-10, 10, 0],
+          rotate: isSearchEmpty ? [0, 0, 0] : [-10, 10, 0],
         }}
         transition={{
           repeat: Infinity,
@@ -49,19 +52,23 @@ export default function NoMoviesFound({
           ease: "easeInOut",
         }}
       >
-        ❌
-      </motion.span>
+        {isSearchEmpty ? (
+          <Film size={64} className="text-indigo-500" />
+        ) : (
+          <span className="text-6xl">❌</span>
+        )}
+      </motion.div>
 
-      {/* Catchy message */}
+      {/* Animated message */}
       <motion.p
-        className="text-center text-xl font-bold text-zinc-700 dark:text-zinc-300"
+        className="text-center text-xl font-semibold text-zinc-700 dark:text-zinc-300 max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
         {isSearchEmpty
-          ? "Lights, Camera… Start your search above!"
-          : `No movies or series found for "${searchName}"`}
+          ? "🎬 Lights, camera… start your search above!"
+          : `No movies or series found for “${searchName}”.`}
       </motion.p>
     </div>
   );
