@@ -1,11 +1,8 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-
 import { useQuery } from "@tanstack/react-query";
-
 import { motion } from "framer-motion";
-
 import Image from "next/image";
 import {
   ArrowLeft,
@@ -18,11 +15,8 @@ import {
   Languages,
   Gauge,
 } from "lucide-react";
-
 import { getMovieDetails } from "@/services/movies.api";
-
 import { InfoCard } from "@/features/movies/components/InfoCard";
-
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { Button } from "@/shared/components/ui/Button";
 import { Badge } from "@/shared/components/ui/badge";
@@ -57,9 +51,7 @@ export default function MovieDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
   const searchParams = useSearchParams();
-
   const urlQuery = searchParams.get("s")?.trim() || "";
 
   function goBackToMovies() {
@@ -85,7 +77,7 @@ export default function MovieDetailPage() {
 
   if (isLoading)
     return (
-      <div className="flex flex-col md:flex-row gap-8">
+      <div className="flex flex-col md:flex-row gap-8 pt-16">
         <Skeleton className="w-full md:w-80 h-[480px] rounded-xl" />
         <div className="flex-1 space-y-4">
           <Skeleton className="h-10 w-64" />
@@ -97,23 +89,26 @@ export default function MovieDetailPage() {
 
   if (error || !movie)
     return (
-      <div className="text-center">
+      <div className="text-center pt-16">
         <h1 className="text-2xl font-bold mb-4">Movie not found</h1>
         <Button onClick={goBackToMovies}>Back to Movies</Button>
       </div>
     );
 
   return (
-    <>
+    <main className="pt-16">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
+        className="mb-8 flex justify-start"
       >
         <Button
           onClick={goBackToMovies}
           variant="outline"
-          className="group flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 hover:from-indigo-500/20 hover:to-purple-500/20 transition-all duration-300"
+          className="group flex items-center gap-2 px-4 py-2 rounded-full 
+                     bg-gradient-to-r from-indigo-500/10 to-purple-500/10 
+                     border border-indigo-500/30 hover:from-indigo-500/20 
+                     hover:to-purple-500/20 transition-all duration-300"
         >
           <ArrowLeft className="w-4 h-4 text-indigo-500 group-hover:-translate-x-1 transition-transform duration-200" />
           <span className="text-indigo-600 dark:text-indigo-300 font-medium">
@@ -259,6 +254,6 @@ export default function MovieDetailPage() {
           )}
         </motion.div>
       </div>
-    </>
+    </main>
   );
 }
