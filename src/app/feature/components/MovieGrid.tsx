@@ -105,10 +105,10 @@ export default function MovieGrid() {
         </div>
 
         <motion.p
-          className="text-sm text-zinc-600 dark:text-zinc-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-center max-w-md px-4 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
         >
           Browse your favorite movies or series, or explore something new!
         </motion.p>
