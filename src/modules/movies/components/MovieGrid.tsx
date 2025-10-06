@@ -31,9 +31,12 @@ export default function MovieGrid() {
   const [effectiveQuery, setEffectiveQuery] = useState(urlQuery);
 
   useEffect(() => {
-    setEffectiveQuery(urlQuery);
-    if (urlQuery) {
-      sessionStorage.setItem("movies:lastSearch", urlQuery);
+    const lastSearch =
+      urlQuery || sessionStorage.getItem("movies:lastSearch") || "";
+    setEffectiveQuery(lastSearch);
+
+    if (lastSearch) {
+      sessionStorage.setItem("movies:lastSearch", lastSearch);
     }
   }, [urlQuery]);
 
