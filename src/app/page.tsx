@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 export default function HomePage() {
   return (
     <main className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
           src="https://assets.nflxext.com/ffe/siteui/vlv3/d482944d-eab4-4a64-89c9-a07a508a6e42/web/EG-en-20250929-TRIFECTA-perspective_ea9e81ae-3622-4bff-af55-38e170b0bccc_large.jpg"
@@ -23,7 +22,6 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90" />
       </div>
 
-      {/* Animated content */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -36,7 +34,10 @@ export default function HomePage() {
           transition={{ delay: 0.2, duration: 1 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow-lg leading-tight"
         >
-          nexus<span className="text-blue-500">movies</span>
+          nexus
+          <span className="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent dark:from-blue-400 dark:to-teal-300">
+            Flex
+          </span>
         </motion.h1>
 
         <motion.p

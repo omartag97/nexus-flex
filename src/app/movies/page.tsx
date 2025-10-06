@@ -5,9 +5,9 @@ import MovieGrid from "@/features/movies/components/MovieGrid";
 
 export default function MoviesPage() {
   return (
-    <main className="min-h-screen container mx-auto px-4 py-12">
+    <div className="space-y-21 mt-26">
       <HeroSection />
       <MovieGrid />
-    </main>
+    </div>
   );
 }
