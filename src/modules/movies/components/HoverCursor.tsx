@@ -1,8 +1,11 @@
 "use client";
 
 import { memo } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
+
 import { PlusIcon } from "lucide-react";
+
 import { Cursor } from "@/shared/components/ui/Cursor";
 
 interface HoverCursorProps {

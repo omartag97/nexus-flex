@@ -3,8 +3,10 @@
 export function Logo() {
   return (
     <h1 className="text-lg md:text-xl font-bold select-none">
-      <span className="text-white">Nexu</span>
-      <span className="text-blue-500">Movies</span>
+      <span className="text-slate-900 dark:text-white">Nexus</span>
+      <span className="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent dark:from-blue-400 dark:to-teal-300">
+        Flex
+      </span>
     </h1>
   );
 }

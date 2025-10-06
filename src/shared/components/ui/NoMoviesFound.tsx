@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Film } from "lucide-react"; // modern icon
+
+import { Film, XCircle } from "lucide-react";
 
 interface NoMoviesFoundProps {
   isSearchEmpty?: boolean;
@@ -14,7 +15,6 @@ export default function NoMoviesFound({
 }: NoMoviesFoundProps) {
   return (
     <div className="relative flex flex-col items-center justify-center py-24">
-      {/* Animated arrow pointing upward when search is empty */}
       {isSearchEmpty && (
         <motion.div
           className="absolute -top-16"
@@ -38,7 +38,6 @@ export default function NoMoviesFound({
         </motion.div>
       )}
 
-      {/* Animated icon depending on state */}
       <motion.div
         className="mb-4 text-zinc-700 dark:text-zinc-300"
         animate={{
@@ -55,11 +54,10 @@ export default function NoMoviesFound({
         {isSearchEmpty ? (
           <Film size={64} className="text-indigo-500" />
         ) : (
-          <span className="text-6xl">❌</span>
+          <XCircle size={64} className="text-red-500" />
         )}
       </motion.div>
 
-      {/* Animated message */}
       <motion.p
         className="text-center text-xl font-semibold text-zinc-700 dark:text-zinc-300 max-w-md"
         initial={{ opacity: 0, y: 20 }}
@@ -67,7 +65,7 @@ export default function NoMoviesFound({
         transition={{ duration: 0.8 }}
       >
         {isSearchEmpty
-          ? "🎬 Lights, camera… start your search above!"
+          ? "Lights, camera… start your search above!"
           : `No movies or series found for “${searchName}”.`}
       </motion.p>
     </div>

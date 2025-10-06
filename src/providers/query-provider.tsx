@@ -7,7 +7,7 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000, // 60 seconds
+        staleTime: 60 * 1000,
         retry: (failureCount, error) => {
           // Don't retry on authentication/authorization errors
           if (error instanceof Response && [401, 404].includes(error.status)) {

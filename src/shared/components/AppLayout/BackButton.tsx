@@ -10,7 +10,6 @@ export const BackButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Detect if nested route (e.g., /movies/123)
   const isNestedRoute = pathname.split("/").filter(Boolean).length > 1;
 
   return (

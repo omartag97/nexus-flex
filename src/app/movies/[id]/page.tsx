@@ -9,8 +9,7 @@ import { ArrowLeft, Star, Calendar, Clock } from "lucide-react";
 import { getMovieDetails } from "@/modules/movies/services/movies.api";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { Button } from "@/shared/components/ui/Button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/shared/components/ui/badge";
 
 export default function MovieDetailPage() {
   const params = useParams();
@@ -168,7 +167,6 @@ export default function MovieDetailPage() {
   );
 }
 
-// ✅ Reusable InfoBlock component for clean design
 function InfoBlock({ label, value }: { label: string; value: string }) {
   return (
     <motion.div

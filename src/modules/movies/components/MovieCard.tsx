@@ -1,10 +1,15 @@
 ﻿"use client";
 
 import { memo } from "react";
+
 import { useRouter } from "next/navigation";
+
 import Image from "next/image";
+
 import { motion } from "framer-motion";
+
 import { MovieSearchItem } from "@/interface/movie.interface";
+
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 
 const MovieCard = memo(function MovieCard(movie: MovieSearchItem) {

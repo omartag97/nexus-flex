@@ -40,7 +40,6 @@ export function Cursor({
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(!attachToParent);
 
-  // ✅ Initialize at screen center
   useEffect(() => {
     if (typeof window !== "undefined") {
       cursorX.set(window.innerWidth / 2);
@@ -48,7 +47,6 @@ export function Cursor({
     }
   }, [cursorX, cursorY]);
 
-  // ✅ Update position + system cursor state
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -61,14 +59,13 @@ export function Cursor({
 
     return () => {
       document.removeEventListener("mousemove", updatePosition);
-      document.body.style.cursor = "auto"; // restore on unmount
+      document.body.style.cursor = "auto";
     };
   }, [cursorX, cursorY, onPositionChange, attachToParent]);
 
   const cursorXSpring = useSpring(cursorX, springConfig ?? { duration: 0 });
   const cursorYSpring = useSpring(cursorY, springConfig ?? { duration: 0 });
 
-  // ✅ Attach to parent element if requested
   useEffect(() => {
     if (!attachToParent || !cursorRef.current) return;
 

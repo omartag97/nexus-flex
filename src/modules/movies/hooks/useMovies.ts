@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "../services/movies.api";
 import { MovieSearchItem } from "@/interface/movie.interface";
 
-// Define the OMDb API response type
 interface OmdbResponse {
   Search?: MovieSearchItem[];
   totalResults?: string;
@@ -21,7 +20,7 @@ export function useMovies(query: string) {
       return res.Search ?? [];
     },
     enabled: !!query,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });

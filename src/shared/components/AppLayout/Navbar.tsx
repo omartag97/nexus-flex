@@ -33,7 +33,6 @@ export default function Navbar() {
       "
     >
       <nav className="w-full px-4 relative" aria-label="Main navigation">
-        {/* Centered Logo */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="pointer-events-auto">
             <Logo />
@@ -41,7 +40,6 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center justify-between">
-          {/* Placeholder to keep logo centered */}
           <div className="hidden md:block md:w-1/3" />
 
           <div className="flex items-center justify-end gap-3 md:w-1/3">
