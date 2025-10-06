@@ -38,7 +38,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative text-center max-w-2xl mx-auto mt-32 mb-12 px-4">
+    <section className="relative text-center">
       <GlowEffect
         colors={["#6366F1", "#EC4899", "#06B6D4", "#F59E0B"]}
         mode="colorShift"

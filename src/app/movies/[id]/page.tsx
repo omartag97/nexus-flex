@@ -85,28 +85,26 @@ export default function MovieDetailPage() {
 
   if (isLoading)
     return (
-      <main className="container mx-auto px-4 py-12">
-        <div className="flex flex-col md:flex-row gap-8">
-          <Skeleton className="w-full md:w-80 h-[480px] rounded-xl" />
-          <div className="flex-1 space-y-4">
-            <Skeleton className="h-10 w-64" />
-            <Skeleton className="h-6 w-40" />
-            <Skeleton className="h-24 w-full" />
-          </div>
+      <div className="flex flex-col md:flex-row gap-8">
+        <Skeleton className="w-full md:w-80 h-[480px] rounded-xl" />
+        <div className="flex-1 space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-6 w-40" />
+          <Skeleton className="h-24 w-full" />
         </div>
-      </main>
+      </div>
     );
 
   if (error || !movie)
     return (
-      <main className="container mx-auto px-4 py-16 text-center">
+      <div className="text-center">
         <h1 className="text-2xl font-bold mb-4">Movie not found</h1>
         <Button onClick={goBackToMovies}>Back to Movies</Button>
-      </main>
+      </div>
     );
 
   return (
-    <main className="container mx-auto px-4 pt-24 md:pt-28 pb-12">
+    <>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -124,9 +122,7 @@ export default function MovieDetailPage() {
         </Button>
       </motion.div>
 
-      {/* 🔹 Movie Layout */}
       <div className="grid md:grid-cols-3 gap-10">
-        {/* Poster */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -147,7 +143,6 @@ export default function MovieDetailPage() {
           )}
         </motion.div>
 
-        {/* Details */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -264,6 +259,6 @@ export default function MovieDetailPage() {
           )}
         </motion.div>
       </div>
-    </main>
+    </>
   );
 }

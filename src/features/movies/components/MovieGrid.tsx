@@ -8,7 +8,8 @@ import { AlertTriangle } from "lucide-react";
 import { useMovies } from "@/services/movies.api";
 import { MovieSearchItem } from "@/interface/movie.interface";
 
-import MovieCardSkeleton from "./MovieCardSkeleton";
+import Loading from "@/app/movies/loading";
+
 import MovieCard from "./MovieCard";
 
 import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
@@ -27,13 +28,7 @@ export default function MovieGrid() {
   const { data, isLoading, isError, error } = useMovies(effectiveQuery);
 
   if (isLoading) {
-    return (
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <MovieCardSkeleton key={i} />
-        ))}
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isError) {
