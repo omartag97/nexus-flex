@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { useScrollDirection } from "@/shared/hooks/useScrollDirection";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 import { Logo } from "./Logo";
 

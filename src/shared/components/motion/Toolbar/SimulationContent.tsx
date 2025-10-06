@@ -37,7 +37,7 @@ export function SimulationContent({ onClose }: SimulationContentProps) {
           { position: "top-center" }
         );
       }
-    } catch (err) {
+    } catch {
       toast.error("Unexpected error occurred", { position: "top-center" });
     } finally {
       setLoading(null);

@@ -8,7 +8,7 @@ import { useQueryState, parseAsString } from "nuqs";
 
 import { motion } from "framer-motion";
 
-import { useDebouncedEffect } from "@/shared/hooks/useDebouncedEffect";
+import { useDebouncedEffect } from "@/hooks/useDebouncedEffect";
 
 import { GlowEffect } from "@/shared/components/motion/GlowEffect";
 

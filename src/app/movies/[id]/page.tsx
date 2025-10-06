@@ -19,8 +19,8 @@ import {
   Gauge,
 } from "lucide-react";
 
-import { getMovieDetails } from "@/modules/movies/services/movies.api";
-import { InfoCard } from "@/modules/movies/components/InfoCard";
+import { getMovieDetails } from "@/services/movies.api";
+import { InfoCard } from "@/app/feature/components/InfoCard";
 
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { Button } from "@/shared/components/ui/Button";

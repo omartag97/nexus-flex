@@ -1,7 +1,7 @@
 "use client";
 
-import HeroSection from "@/modules/movies/components/HeroSection";
-import MovieGrid from "@/modules/movies/components/MovieGrid";
+import HeroSection from "@/app/feature/components/HeroSection";
+import MovieGrid from "@/app/feature/components/MovieGrid";
 
 export default function MoviesPage() {
   return (

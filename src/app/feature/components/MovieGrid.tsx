@@ -4,18 +4,18 @@ import { useEffect, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
+import { useMovies } from "@/hooks/useMovies";
+
 import { motion } from "framer-motion";
 
 import Autoplay from "embla-carousel-autoplay";
-
-import { useMovies } from "../hooks/useMovies";
 
 import { MovieSearchItem } from "@/interface/movie.interface";
 
 import MovieCard from "./MovieCard";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
 
+import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
 import {
   Carousel,
   CarouselContent,
@@ -23,6 +23,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shared/components/ui/Carousel";
+
+import { AlertTriangle } from "lucide-react";
 
 export default function MovieGrid() {
   const searchParams = useSearchParams();
@@ -54,8 +56,15 @@ export default function MovieGrid() {
 
   if (isError) {
     return (
-      <div className="text-center py-12 text-red-500">
-        <p>Failed to load movies or series. Please try again later.</p>
+      <div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
+        <AlertTriangle className="w-10 h-10 text-red-500 animate-pulse" />
+        <p className="text-lg font-medium text-red-600 dark:text-red-400">
+          Failed to load movies or series.
+        </p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          Please try again later.
+        </p>
+
         {process.env.NODE_ENV === "development" && (
           <pre className="mt-4 text-left max-w-3xl mx-auto text-xs bg-red-50 dark:bg-red-900/20 p-3 rounded">
             {error instanceof Error ? error.message : JSON.stringify(error)}
