@@ -1,8 +1,8 @@
-import { QueryProvider } from "@/providers/query-provider";
+import { QueryProvider } from "@/shared/providers/query-provider";
 
 import { ThemeProvider } from "@/shared/components/system/ThemeProvider";
-import Navbar from "@/shared/components/AppLayout/Navbar";
-import SimulationPanel from "@/shared/components/motion/Toolbar/SimulationPanel";
+import Navbar from "@/shared/components/app-layout/Navbar";
+import SimulationPanel from "@/shared/components/motion/toolbar/SimulationPanel";
 
 import { Toaster } from "sonner";
 
@@ -22,13 +22,10 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <Navbar />
-
               <main>{children}</main>
-
               <footer>
                 <SimulationPanel />
               </footer>
-
               <Toaster position="top-center" richColors />
             </QueryProvider>
           </NuqsAdapter>

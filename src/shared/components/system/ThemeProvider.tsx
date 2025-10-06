@@ -54,7 +54,6 @@ export function ThemeProvider({
     const activeTheme = storedTheme || defaultTheme;
     applyTheme(activeTheme);
     setThemeState(activeTheme);
-    // ✅ include dependencies properly
   }, [defaultTheme, storageKey]);
 
   const setTheme = (newTheme: Theme) => {

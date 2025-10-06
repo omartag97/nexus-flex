@@ -1,30 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { useSearchParams } from "next/navigation";
-
-import { useMovies } from "@/hooks/useMovies";
-
 import { motion } from "framer-motion";
+import { AlertTriangle } from "lucide-react";
 
-import Autoplay from "embla-carousel-autoplay";
-
+import { useMovies } from "@/services/movies.api";
 import { MovieSearchItem } from "@/interface/movie.interface";
 
-import MovieCard from "./MovieCard";
 import MovieCardSkeleton from "./MovieCardSkeleton";
+import MovieCard from "./MovieCard";
 
 import NoMoviesFound from "@/shared/components/ui/NoMoviesFound";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/shared/components/ui/Carousel";
-
-import { AlertTriangle } from "lucide-react";
 
 export default function MovieGrid() {
   const searchParams = useSearchParams();
@@ -33,13 +20,8 @@ export default function MovieGrid() {
   const [effectiveQuery, setEffectiveQuery] = useState(urlQuery);
 
   useEffect(() => {
-    const lastSearch =
-      urlQuery || sessionStorage.getItem("movies:lastSearch") || "";
+    const lastSearch = urlQuery || "";
     setEffectiveQuery(lastSearch);
-
-    if (lastSearch) {
-      sessionStorage.setItem("movies:lastSearch", lastSearch);
-    }
   }, [urlQuery]);
 
   const { data, isLoading, isError, error } = useMovies(effectiveQuery);
@@ -114,27 +96,32 @@ export default function MovieGrid() {
         </motion.p>
       </motion.div>
 
-      <Carousel
-        className="relative w-full max-w-6xl mx-auto"
-        plugins={[Autoplay({ delay: 2500 })]}
+      <motion.div
+        className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.05,
+            },
+          },
+        }}
       >
-        <CarouselContent className="gap-4">
-          {uniqueResults.map((movie) => (
-            <CarouselItem key={movie.imdbID} className="flex-[0_0_25%]">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <MovieCard {...movie} />
-              </motion.div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+        {uniqueResults.map((movie) => (
+          <motion.div
+            key={movie.imdbID}
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <MovieCard {...movie} />
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 }

@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
+
 import { Wifi, X } from "lucide-react";
+
 import { SimulationContent } from "./SimulationContent";
 
 export default function SimulationPanel() {

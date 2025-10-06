@@ -9,17 +9,14 @@ function makeQueryClient() {
       queries: {
         staleTime: 60 * 1000,
         retry: (failureCount, error) => {
-          // Don't retry on authentication/authorization errors
           if (error instanceof Response && [401, 404].includes(error.status)) {
             return false;
           }
-          // Retry up to 2 times for other errors
           return failureCount < 2;
         },
       },
       mutations: {
         retry: (failureCount, error) => {
-          // Don't retry mutations on client errors
           if (
             error instanceof Response &&
             error.status >= 400 &&
@@ -38,10 +35,8 @@ let browserQueryClient: QueryClient | undefined = undefined;
 
 function getQueryClient() {
   if (typeof window === "undefined") {
-    // Server: always make a new query client
     return makeQueryClient();
   } else {
-    // Browser: make a new query client if we don't already have one
     if (!browserQueryClient) browserQueryClient = makeQueryClient();
     return browserQueryClient;
   }

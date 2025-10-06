@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,7 +20,8 @@ import {
 } from "lucide-react";
 
 import { getMovieDetails } from "@/services/movies.api";
-import { InfoCard } from "@/app/feature/components/InfoCard";
+
+import { InfoCard } from "@/features/movies/components/InfoCard";
 
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { Button } from "@/shared/components/ui/Button";
@@ -57,6 +58,10 @@ export default function MovieDetailPage() {
   const router = useRouter();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
+  const searchParams = useSearchParams();
+
+  const urlQuery = searchParams.get("s")?.trim() || "";
+
   function goBackToMovies() {
     try {
       if (typeof window !== "undefined" && window.history.length > 1) {
@@ -64,10 +69,7 @@ export default function MovieDetailPage() {
         return;
       }
     } catch {}
-    const last =
-      typeof window !== "undefined"
-        ? sessionStorage.getItem("movies:lastSearch")
-        : null;
+    const last = typeof window !== "undefined" ? urlQuery : null;
     router.push(last ? `/movies?s=${encodeURIComponent(last)}` : "/movies");
   }
 
