@@ -24,12 +24,14 @@ export default function Navbar() {
       }}
       transition={NAVBAR_ANIMATION.transition}
       className="
-        fixed inset-x-0 top-0 py-3 z-30 w-full max-w-3xl mx-auto
-        flex items-center justify-between md:top-6 my-2 shadow-sm rounded-2xl 
-        backdrop-blur-sm
+        fixed inset-x-0 top-0 py-3 z-30 w-full 
+        mx-auto flex items-center justify-between md:top-6 my-2 
+        shadow-sm rounded-2xl backdrop-blur-sm
         bg-white/30 border border-white/20
         dark:bg-black/30 dark:border-white/10
         transition-colors duration-300
+
+        max-w-sm md:max-w-3xl
       "
     >
       <nav
