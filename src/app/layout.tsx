@@ -1,11 +1,14 @@
-import "@/app/globals.css";
 import { QueryProvider } from "@/providers/query-provider";
+
 import { ThemeProvider } from "@/shared/components/system/ThemeProvider";
 import Navbar from "@/shared/components/AppLayout/Navbar";
 import SimulationPanel from "@/shared/components/motion/Toolbar/SimulationPanel";
-import { Toaster } from "sonner"; // ✅ Import Toaster
+
+import { Toaster } from "sonner";
 
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+
+import "@/app/globals.css";
 
 export default function RootLayout({
   children,

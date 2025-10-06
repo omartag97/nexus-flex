@@ -34,14 +34,6 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
 
-  // ✅ Apply theme and save to localStorage
-  useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as Theme | null;
-    const activeTheme = storedTheme || defaultTheme;
-    applyTheme(activeTheme);
-    setThemeState(activeTheme);
-  }, []);
-
   const applyTheme = (themeValue: Theme) => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
@@ -56,6 +48,14 @@ export function ThemeProvider({
       root.classList.add(themeValue);
     }
   };
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+    const activeTheme = storedTheme || defaultTheme;
+    applyTheme(activeTheme);
+    setThemeState(activeTheme);
+    // ✅ include dependencies properly
+  }, [defaultTheme, storageKey]);
 
   const setTheme = (newTheme: Theme) => {
     localStorage.setItem(storageKey, newTheme);

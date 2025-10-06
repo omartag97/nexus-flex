@@ -1,9 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import { useScrollDirection } from "@/shared/hooks/useScrollDirection";
+
 import { Logo } from "./Logo";
+
 import { NAVBAR_ANIMATION } from "@/constants/navbar";
+
 import { ModeToggle } from "../system/ModeToggle";
 
 export default function Navbar() {

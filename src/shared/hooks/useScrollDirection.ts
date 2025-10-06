@@ -7,7 +7,6 @@ export const useScrollDirection = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentOffset = window.scrollY;
-      // Show navbar when at the top
       if (currentOffset === 0) {
         setScrollDirection("up");
         return;

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+
 import {
   motion,
   SpringOptions,
@@ -10,6 +11,7 @@ import {
   Transition,
   Variant,
 } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 
 export type CursorProps = {

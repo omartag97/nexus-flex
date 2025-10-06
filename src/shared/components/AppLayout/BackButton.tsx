@@ -1,9 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+
+import { AnimatePresence, motion } from "framer-motion";
+
+import { ChevronLeft } from "lucide-react";
+
 import { BACK_BUTTON_ANIMATION } from "@/constants/navbar";
+
 import Typography from "../ui/Typography";
 
 export const BackButton = () => {

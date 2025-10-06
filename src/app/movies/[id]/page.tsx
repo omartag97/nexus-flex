@@ -1,15 +1,56 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
+
 import { useQuery } from "@tanstack/react-query";
+
 import { motion } from "framer-motion";
+
 import Image from "next/image";
-import { ArrowLeft, Star, Calendar, Clock } from "lucide-react";
+import {
+  ArrowLeft,
+  Star,
+  Calendar,
+  Clock,
+  Award,
+  Globe2,
+  DollarSign,
+  Languages,
+  Gauge,
+} from "lucide-react";
 
 import { getMovieDetails } from "@/modules/movies/services/movies.api";
+import { InfoCard } from "@/modules/movies/components/InfoCard";
+
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { Button } from "@/shared/components/ui/Button";
 import { Badge } from "@/shared/components/ui/badge";
+
+interface MovieRating {
+  Source: string;
+  Value: string;
+}
+
+interface Movie {
+  Title: string;
+  Year?: string;
+  Rated?: string;
+  Released?: string;
+  Runtime?: string;
+  Genre?: string;
+  Director?: string;
+  Writer?: string;
+  Actors?: string;
+  Plot?: string;
+  Language?: string;
+  Country?: string;
+  Awards?: string;
+  Poster?: string;
+  Ratings?: MovieRating[];
+  Metascore?: string;
+  imdbRating?: string;
+  BoxOffice?: string;
+}
 
 export default function MovieDetailPage() {
   const params = useParams();
@@ -34,13 +75,13 @@ export default function MovieDetailPage() {
     data: movie,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<Movie>({
     queryKey: ["movie", id],
     queryFn: () => getMovieDetails(id!),
     enabled: !!id,
   });
 
-  if (isLoading) {
+  if (isLoading)
     return (
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col md:flex-row gap-8">
@@ -53,21 +94,18 @@ export default function MovieDetailPage() {
         </div>
       </main>
     );
-  }
 
-  if (error || !movie) {
+  if (error || !movie)
     return (
       <main className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-4">Movie not found</h1>
-        <Button onClick={goBackToMovies} variant="default">
-          Back to Movies
-        </Button>
+        <Button onClick={goBackToMovies}>Back to Movies</Button>
       </main>
     );
-  }
 
   return (
     <main className="container mx-auto px-4 py-12">
+      {/* 🔹 Back Button */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -85,7 +123,9 @@ export default function MovieDetailPage() {
         </Button>
       </motion.div>
 
+      {/* 🔹 Movie Layout */}
       <div className="grid md:grid-cols-3 gap-10">
+        {/* Poster */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -106,6 +146,7 @@ export default function MovieDetailPage() {
           )}
         </motion.div>
 
+        {/* Details */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -137,6 +178,14 @@ export default function MovieDetailPage() {
                   <Clock className="w-4 h-4" /> {movie.Runtime}
                 </Badge>
               )}
+              {movie.Metascore && (
+                <Badge
+                  variant="outline"
+                  className="flex items-center gap-1 border-green-500/30 text-green-600 dark:text-green-400"
+                >
+                  <Gauge className="w-4 h-4" /> Metascore: {movie.Metascore}
+                </Badge>
+              )}
             </div>
           </div>
 
@@ -154,32 +203,66 @@ export default function MovieDetailPage() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {movie.Genre && <InfoBlock label="Genre" value={movie.Genre} />}
+            {movie.Genre && <InfoCard label="Genre" value={movie.Genre} />}
             {movie.Director && (
-              <InfoBlock label="Director" value={movie.Director} />
+              <InfoCard label="Director" value={movie.Director} />
             )}
-            {movie.Writer && <InfoBlock label="Writer" value={movie.Writer} />}
-            {movie.Actors && <InfoBlock label="Actors" value={movie.Actors} />}
+            {movie.Writer && <InfoCard label="Writer" value={movie.Writer} />}
+            {movie.Actors && <InfoCard label="Actors" value={movie.Actors} />}
+            {movie.Language && (
+              <InfoCard
+                label="Language"
+                value={movie.Language}
+                icon={<Languages className="w-4 h-4 text-blue-500" />}
+              />
+            )}
+            {movie.Country && (
+              <InfoCard
+                label="Country"
+                value={movie.Country}
+                icon={<Globe2 className="w-4 h-4 text-teal-500" />}
+              />
+            )}
+            {movie.Awards && (
+              <InfoCard
+                label="Awards"
+                value={movie.Awards}
+                icon={<Award className="w-4 h-4 text-yellow-500" />}
+              />
+            )}
+            {movie.BoxOffice && (
+              <InfoCard
+                label="Box Office"
+                value={movie.BoxOffice}
+                icon={<DollarSign className="w-4 h-4 text-green-500" />}
+              />
+            )}
           </div>
+
+          {Array.isArray(movie.Ratings) && movie.Ratings.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-6"
+            >
+              <h2 className="text-xl font-semibold mb-3">Ratings</h2>
+              <div className="flex flex-wrap gap-3">
+                {movie.Ratings.map((r: MovieRating) => (
+                  <Badge
+                    key={r.Source}
+                    variant="secondary"
+                    className="bg-zinc-100 dark:bg-zinc-800 text-sm px-3 py-1"
+                  >
+                    {r.Source}:{" "}
+                    <span className="font-medium ml-1">{r.Value}</span>
+                  </Badge>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </main>
-  );
-}
-
-function InfoBlock({ label, value }: { label: string; value: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 5 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      className="p-4 rounded-xl border border-zinc-200/50 dark:border-zinc-800/60 bg-zinc-50/40 dark:bg-zinc-900/40 backdrop-blur-sm"
-    >
-      <h3 className="font-semibold mb-1 text-zinc-800 dark:text-zinc-200">
-        {label}
-      </h3>
-      <p className="text-zinc-600 dark:text-zinc-400">{value}</p>
-    </motion.div>
   );
 }

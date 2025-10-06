@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, Transition } from "framer-motion";
+import { motion, Transition, TargetAndTransition } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export type GlowEffectProps = {
@@ -29,11 +29,6 @@ export type GlowEffectProps = {
   duration?: number;
 };
 
-/**
- * Animated glowing gradient background.
- * Perfect for hero sections, buttons, or decorative elements.
- * Supports multiple modes and dynamic color transitions.
- */
 export function GlowEffect({
   className,
   style,
@@ -50,7 +45,10 @@ export function GlowEffect({
     ease: "linear",
   };
 
-  const animations: Record<NonNullable<GlowEffectProps["mode"]>, any> = {
+  const animations: Record<
+    NonNullable<GlowEffectProps["mode"]>,
+    TargetAndTransition
+  > = {
     rotate: {
       background: [
         `conic-gradient(from 0deg at 50% 50%, ${colors.join(", ")})`,
@@ -111,12 +109,14 @@ export function GlowEffect({
 
   return (
     <motion.div
-      style={{
-        ...style,
-        "--scale": scale,
-        willChange: "transform",
-        backfaceVisibility: "hidden",
-      }}
+      style={
+        {
+          ...style,
+          "--scale": scale,
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+        } as React.CSSProperties
+      }
       animate={animations[mode]}
       className={cn(
         "pointer-events-none absolute inset-0 w-full h-full",

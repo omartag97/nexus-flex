@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { searchMovies } from "../services/movies.api";
+
 import { MovieSearchItem } from "@/interface/movie.interface";
 
 interface OmdbResponse {
